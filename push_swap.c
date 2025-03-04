@@ -57,7 +57,7 @@ int main(int ac, char **av)
 	{
 		split = ft_split(av[1], 32);
 		creat_stack(&a, split);
-		if (!stack_sort(a))
+		if (ft_checksorted(a) == 0)
 		{
 			if (ft_size(a) == 2)
 				sa(&a);
@@ -67,13 +67,11 @@ int main(int ac, char **av)
 	else if (ac > 2)
 	{
 		creat_stack(&a, av + 1);
-		i = ft_size(a);
-		printf("%d", i);
-		if (!stack_sort(a))
+		if (!ft_checksorted(a))
 		{
 			if (ft_size(a) == 2)
 				sa(&a);
-			if (ft_size(a) == 3)
+			else if (ft_size(a) == 3)
 				sa(&a);
 		}
 	}

@@ -34,4 +34,6 @@ void	creat_stack(t_stack **a, char **av);
 int check_args(char **av);
 bool stack_sort(t_stack *stack);
 void	sa(t_stack **a);
+bool	ft_syntax_check(char *argv);
+int	ft_checksorted(t_stack *stack_a);
 #endif

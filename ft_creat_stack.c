@@ -62,9 +62,12 @@ void	creat_stack(t_stack **a, char **av)
 	i = 0;
 	while(av[i])
 	{
+		if(ft_syntax_check(av[i]))
+			ft_error();
 		n = ft_atol(av[i]);
 		if (n > INT_MAX || n < INT_MIN)
 			ft_error();
+		check_args(&av[i]);
 		add_node(a, (int)n);
 		i++;
 	}

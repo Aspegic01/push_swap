@@ -14,17 +14,19 @@
 #include <stdbool.h>
 #include <stdio.h>
 
-bool	stack_sort(t_stack *stack)
+int	ft_checksorted(t_stack *stack_a)
 {
-	if (!stack)
-		return true;
-	while(stack->next)
+	int	i;
+
+	i = stack_a->nbr;
+	while (stack_a)
 	{
-		if (stack->nbr > stack->next->nbr)
-			return false;
-		stack = stack->next;
+		if (i > stack_a->nbr)
+			return (0);
+		i = stack_a->nbr;
+		stack_a = stack_a->next;
 	}
-	return true;
+	return (1);
 }
 
 static void swap(t_stack **head)

@@ -58,24 +58,37 @@ int	check_error(char **av)
 		{
 			if (sign(av[i][j]))
 			{
-				if (sign(av[i][j - 1] != ' '))
-					return false;
+				j++;
 				if (!ft_isdigit(av[i][j]))
 					return false;
-				j++;
 			}
 			else if (ft_isdigit(av[i][j]))
 			{
+				j++;
 				if (av[i][j] == '\0')
 					break ;
 				if (!ft_isdigit(av[i][j]) && !space(av[i][j]))
 					return false;
-				j++;
 			}
+			j++;
 		}
 		i++;
 	}
-	return true ;
+	return true;
+}
+
+bool	ft_syntax_check(char *argv)
+{
+	if (!(*argv == '+' || *argv == '-' || (*argv >= '0' && *argv <= '9')))
+		return (true);
+	if ((*argv == '+' || *argv == '-') && !(argv[1] >= '0' && argv[1] <= '9'))
+		return (true);
+	while (*++argv)
+	{
+		if (!(*argv >= '0' && *argv <= '9'))
+			return (true);
+	}
+	return (false);
 }
 
 int check_args(char **av)
