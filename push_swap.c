@@ -131,8 +131,144 @@ void	print_stack(t_lst *stack)
 		stack = stack->next;
 	}
 }
+void	next_chunk(t_range *range)
+{
+	if (range->start < range->end - 1)
+		range->start += 1;
+	if (range->end < range->size - 1)
+		range->end += 1;
+}
 
-int find_offset(int size)
+void push_in_range(t_lst **a, t_lst **b, t_range *range)
+{
+	if (!a || !b || !range)
+		return ;
+	while (*a)
+	{
+		if ((*a)->content <= range->sorted_array[range->start])
+		{
+			do_pb(a, b);
+			do_rb(b);
+			next_chunk(range);
+		}
+		else if ((*a)->content <= range->sorted_array[range->end])
+		{
+			do_pb(a, b);
+			if (lst_size(*b) > 2 && (*b)->content < (*b)->next->content)
+				do_sb(b);
+			next_chunk(range);
+		}
+		else
+			do_ra(a);
+	}
+}
+
+void push_element_to_b(t_lst **a, t_lst **b, t_range *range)
+{
+	if (!a || !b || !range)
+		return ;
+	push_in_range(a, b, range);
+}
+int find_max_value(t_lst *stack)
+{
+	int max_value;
+
+	max_value = stack->content;
+	while (stack)
+	{
+		if (stack->content > max_value)
+			max_value = stack->content;
+		stack = stack->next;
+	}
+	return (max_value);
+}
+
+int get_position(t_lst *stack, int max_value)
+{
+	int position;
+
+	position = 0;
+	while (stack)
+	{
+		if (stack->content == max_value)
+			return (position);
+		position++;
+		stack = stack->next;
+	}
+	return (position);
+}
+
+void push_elements_to_a(t_lst **a, t_lst **b)
+{
+	int	max_value;
+	int	pos;
+	int	size;
+
+	if (!a || !b)
+		return ;
+	while (*b)
+	{
+		max_value = find_max_value(*b);
+		pos = get_position(*b, max_value);
+		size = lst_size(*b);
+		if (pos <= size / 2)
+		{
+			while ((*b)->content != max_value)
+				do_rb(b);
+		}
+		else
+		{
+			while ((*b)->content != max_value)
+				do_rrb(b);
+		}
+		do_pa(a, b);
+		if (*b && (*b)->content > (*a)->content)
+			do_ra(a);
+	}
+}
+int	*stack_to_array(t_lst *stack, int size)
+{
+	int	*array;
+	int	i;
+
+	array = (int *)malloc(sizeof(int) * size);
+	if (!array)
+		return (NULL);
+	i = 0;
+	while (i < size)
+	{
+		array[i] = stack->content;
+		stack = stack->next;
+		i++;
+	}
+	return (array);
+}
+
+void	sorted_array(int *array, int size)
+{
+	int	i;
+	int	j;
+	int	tmp;
+
+	i = 0;
+	while (i < size)
+	{
+		j = i + 1;
+		while (j < size)
+		{
+			if (array[i] > array[j])
+			{
+				tmp = array[i];
+				array[i] = array[j];
+				array[j] = tmp;
+			}
+			j++;
+		}
+		i++;
+	}
+}
+
+int	find_offset(int size)
 {
 	if (size <= 100)
 		return (size / 6);
@@ -142,71 +278,13 @@ int find_offset(int size)
 		return (size / (size / 2));
 }
 
-void sorted_array(int *array, int size)
+void	init_range(t_lst **a, t_range *range, int size)
 {
-	int i, j, temp;
-	for (i = 0; i < size - 1; i++)
-	{
-		for (j = 0; j < size - i - 1; j++)
-		{
-			if (array[j] > array[j + 1])
-			{
-				temp = array[j];
-				array[j] = array[j + 1];
-				array[j + 1] = temp;
-			}
-		}
-	}
-}
-
-int *stack_to_array(t_lst *stack, int size)
-{
-	int *array;
-	int i;
-
-	array = (int *)malloc(size * sizeof(int));
-	if (!array)
-		return (NULL);
-	i = 0;
-	while (stack)
-	{
-		array[i++] = stack->content;
-		stack = stack->next;
-	}
-	return (array);
-}
-
-void push_element_to_b(t_lst **a, t_lst **b, t_range *range)
-{
-	int i;
-
-	for (i = 0; i < range->size; i++)
-	{
-		if ((*a)->content >= range->sorted_array[range->start] &&
-			(*a)->content <= range->sorted_array[range->end])
-		{
-			do_pb(a, b);
-		}
-		else
-			do_ra(a);
-	}
-}
-
-void push_elements_to_a(t_lst **a, t_lst **b)
-{
-	while (*b)
-	{
-		do_pa(a, b);
-	}
-}
-
-void init_range(t_lst **a, t_range *range, int size)
-{
-	int *array;
+	int	*array;
 
 	array = stack_to_array(*a, size);
 	if (!array)
-		return;
+		return ;
 	sorted_array(array, size);
 	range->offset = find_offset(size);
 	range->sorted_array = array;
@@ -215,27 +293,20 @@ void init_range(t_lst **a, t_range *range, int size)
 	range->end = range->offset;
 }
 
-void next_chunk(t_range *range)
+void	large_sort(t_lst **a, t_lst **b, int size)
 {
-	if (range->start < range->end - 1)
-		range->start += 1;
-	if (range->end < range->size - 1)
-		range->end += 1;
-}
-
-void large_sort(t_lst **a, t_lst **b, int size)
-{
-	t_range *range;
+	t_range	*range;
 
 	range = (t_range *)malloc(sizeof(t_range));
 	if (!range)
-		return;
+		return ;
 	init_range(a, range, size);
 	push_element_to_b(a, b, range);
 	push_elements_to_a(a, b);
 	free(range->sorted_array);
 	free(range);
 }
+
 
 int main(int ac, char **av)
 {
@@ -259,7 +330,6 @@ int main(int ac, char **av)
 			large_sort(&a_stack, &b_stack, size);
 		}
 	}
-	print_stack(a_stack);
 	stackclear(&a_stack);
 	stackclear(&b_stack);
 }
