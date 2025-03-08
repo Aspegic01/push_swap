@@ -2,7 +2,11 @@ CC =	cc
 FLAGS =	
 NAME = push_swap
 SRCS =	$(shell ls ./libft/*.c) \
-		$(shell ls ./*.c)
+		$(shell ls ./main/*.c) \
+		$(shell ls ./sort/*.c) \
+		$(shell ls ./utils/*.c) \
+		$(shell ls ./operation/*.c)
+
 
 OFILES =	$(SRCS:.c=.o)
 

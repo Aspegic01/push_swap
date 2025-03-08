@@ -16,7 +16,7 @@
 #include <unistd.h>
 #include <stdbool.h>
 #include <stdlib.h>
-#include "libft/libft.h"
+#include "../libft/libft.h"
 #include <limits.h>
 
 typedef struct s_lst
