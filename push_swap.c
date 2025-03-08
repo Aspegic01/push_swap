@@ -6,7 +6,7 @@
 /*   By: mlabrirh <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 17:20:59 by mlabrirh          #+#    #+#             */
-/*   Updated: 2025/03/08 20:06:24 by Aspegic01        ###   ########.fr       */
+/*   Updated: 2025/03/08 23:11:04 by mlabrirh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,45 +14,6 @@
 #include "libft/libft.h"
 #include <stdio.h>
 #include <unistd.h>
-
-
-static t_lst	*get_min(t_lst **stack)
-{
-	t_lst	*lst;
-	t_lst	*lst_min;
-	int		min;
-
-	if (!(*stack))
-		return (NULL);
-	min = 0;
-	lst_min = NULL;
-	lst = *stack;
-	while (lst)
-	{
-		if ((lst->index == -1)
-			&& (!min || lst->content < lst_min->content))
-		{
-			lst_min = lst;
-			min = 1;
-		}
-		lst = lst->next;
-	}
-	return (lst_min);
-}
-
-void	ft_index(t_lst **stack)
-{
-	t_lst	*lst;
-	int		index;
-
-	index = 0;
-	lst = get_min(stack);
-	while (lst)
-	{
-		lst->index = index++;
-		lst = get_min(stack);
-	}
-}
 
 static void	ft_free(char **str)
 {
@@ -131,182 +92,6 @@ void	print_stack(t_lst *stack)
 		stack = stack->next;
 	}
 }
-void	next_chunk(t_range *range)
-{
-	if (range->start < range->end - 1)
-		range->start += 1;
-	if (range->end < range->size - 1)
-		range->end += 1;
-}
-
-void push_in_range(t_lst **a, t_lst **b, t_range *range)
-{
-	if (!a || !b || !range)
-		return ;
-	while (*a)
-	{
-		if ((*a)->content <= range->sorted_array[range->start])
-		{
-			do_pb(a, b);
-			do_rb(b);
-			next_chunk(range);
-		}
-		else if ((*a)->content <= range->sorted_array[range->end])
-		{
-			do_pb(a, b);
-			if (lst_size(*b) > 2 && (*b)->content < (*b)->next->content)
-				do_sb(b);
-			next_chunk(range);
-		}
-		else
-			do_ra(a);
-	}
-}
-
-void push_element_to_b(t_lst **a, t_lst **b, t_range *range)
-{
-	if (!a || !b || !range)
-		return ;
-	push_in_range(a, b, range);
-}
-int find_max_value(t_lst *stack)
-{
-	int max_value;
-
-	max_value = stack->content;
-	while (stack)
-	{
-		if (stack->content > max_value)
-			max_value = stack->content;
-		stack = stack->next;
-	}
-	return (max_value);
-}
-
-int get_position(t_lst *stack, int max_value)
-{
-	int position;
-
-	position = 0;
-	while (stack)
-	{
-		if (stack->content == max_value)
-			return (position);
-		position++;
-		stack = stack->next;
-	}
-	return (position);
-}
-
-void push_elements_to_a(t_lst **a, t_lst **b)
-{
-	int	max_value;
-	int	pos;
-	int	size;
-
-	if (!a || !b)
-		return ;
-	while (*b)
-	{
-		max_value = find_max_value(*b);
-		pos = get_position(*b, max_value);
-		size = lst_size(*b);
-		if (pos <= size / 2)
-		{
-			while ((*b)->content != max_value)
-				do_rb(b);
-		}
-		else
-		{
-			while ((*b)->content != max_value)
-				do_rrb(b);
-		}
-		do_pa(a, b);
-		if (*b && (*b)->content > (*a)->content)
-			do_ra(a);
-	}
-}
-int	*stack_to_array(t_lst *stack, int size)
-{
-	int	*array;
-	int	i;
-
-	array = (int *)malloc(sizeof(int) * size);
-	if (!array)
-		return (NULL);
-	i = 0;
-	while (i < size)
-	{
-		array[i] = stack->content;
-		stack = stack->next;
-		i++;
-	}
-	return (array);
-}
-
-void	sorted_array(int *array, int size)
-{
-	int	i;
-	int	j;
-	int	tmp;
-
-	i = 0;
-	while (i < size)
-	{
-		j = i + 1;
-		while (j < size)
-		{
-			if (array[i] > array[j])
-			{
-				tmp = array[i];
-				array[i] = array[j];
-				array[j] = tmp;
-			}
-			j++;
-		}
-		i++;
-	}
-}
-
-int	find_offset(int size)
-{
-	if (size <= 100)
-		return (size / 6);
-	else if (size <= 500)
-		return (size / 12);
-	else
-		return (size / (size / 2));
-}
-
-void	init_range(t_lst **a, t_range *range, int size)
-{
-	int	*array;
-
-	array = stack_to_array(*a, size);
-	if (!array)
-		return ;
-	sorted_array(array, size);
-	range->offset = find_offset(size);
-	range->sorted_array = array;
-	range->size = size;
-	range->start = 0;
-	range->end = range->offset;
-}
-
-void	large_sort(t_lst **a, t_lst **b, int size)
-{
-	t_range	*range;
-
-	range = (t_range *)malloc(sizeof(t_range));
-	if (!range)
-		return ;
-	init_range(a, range, size);
-	push_element_to_b(a, b, range);
-	push_elements_to_a(a, b);
-	free(range->sorted_array);
-	free(range);
-}
-
 
 int main(int ac, char **av)
 {
@@ -327,6 +112,8 @@ int main(int ac, char **av)
 		int size = lst_size(a_stack);
 		if (is_sorted(&a_stack) != 1)
 		{
+			if (lst_size(a_stack) == 2)
+				do_sa(&a_stack);
 			large_sort(&a_stack, &b_stack, size);
 		}
 	}

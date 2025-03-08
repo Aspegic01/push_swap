@@ -46,4 +46,3 @@ long	ft_atol(const char *nptr)
 	res *= sign;
 	return (res);
 }
-

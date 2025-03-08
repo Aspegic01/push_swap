@@ -6,56 +6,55 @@
 /*   By: mlabrirh <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 17:19:14 by mlabrirh          #+#    #+#             */
-/*   Updated: 2025/03/08 17:21:51 by mlabrirh         ###   ########.fr       */
+/*   Updated: 2025/03/08 21:15:15 by mlabrirh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-static int	get_maxbits_lst(t_lst **stack)
+int	find_offset(int size)
 {
-	t_lst	*lst;
-	int		max;
-	int		max_b;
-
-	lst = *stack;
-	max = lst->index;
-	max_b = 0;
-	while (lst)
-	{
-		if (lst->index > max)
-			max = lst->index;
-		lst = lst->next;
-	}
-	while ((max >> max_b) != 0)
-		max_b++;
-	return (max_b);
+	if (size <= 100)
+		return (size / 6);
+	else if (size <= 500)
+		return (size / 12);
+	else
+		return (size / (size / 2));
 }
 
-void	radix_sort(t_lst **a_stack, t_lst **b_stack)
+void	init_range(t_lst **a, t_range *range, int size)
 {
-	t_lst	*lst;
-	int		i;
-	int		j;
-	int		size;
-	int		max_b;
+	int	*array;
 
-	lst = *a_stack;
-	size = lst_size(*a_stack);
-	max_b = get_maxbits_lst(a_stack);
-	i = -1;
-	while (++i < max_b)
-	{
-		j = -1;
-		while (++j < size)
-		{
-			lst = *a_stack;
-			if (((lst->index >> i) & 1) == 0)
-				do_pb(a_stack, b_stack);
-			else
-				do_ra(a_stack);
-		}
-		while (lst_size(*b_stack) != 0)
-			do_pa(a_stack, b_stack);
-	}
+	array = stack_to_array(*a, size);
+	if (!array)
+		return ;
+	sorted_array(array, size);
+	range->offset = find_offset(size);
+	range->sorted_array = array;
+	range->size = size;
+	range->start = 0;
+	range->end = range->offset;
+}
+
+void	next_chunk(t_range *range)
+{
+	if (range->start < range->end - 1)
+		range->start += 1;
+	if (range->end < range->size - 1)
+		range->end += 1;
+}
+
+void	large_sort(t_lst **a, t_lst **b, int size)
+{
+	t_range	*range;
+
+	range = (t_range *)malloc(sizeof(t_range));
+	if (!range)
+		return ;
+	init_range(a, range, size);
+	push_element_to_b(a, b, range);
+	push_elements_to_a(a, b);
+	free(range->sorted_array);
+	free(range);
 }

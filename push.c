@@ -28,11 +28,11 @@ static void	push(t_lst **a_stack, t_lst **b_stack)
 void	do_pa(t_lst **a_stack, t_lst **b_stack)
 {
 	push(a_stack, b_stack);
-	printf("pa\n");
+	write(1, "pa\n", 3);
 }
 
 void	do_pb(t_lst **a_stack, t_lst **b_stack)
 {
 	push(b_stack, a_stack);
-	printf("pb\n");
+	write(1, "pb\n", 3);
 }
