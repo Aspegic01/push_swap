@@ -1,27 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_stack_sort.c                                    :+:      :+:    :+:   */
+/*   ft_putchar.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlabrirh <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mlabrirh <mlabrirh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/03 15:38:04 by mlabrirh          #+#    #+#             */
-/*   Updated: 2025/03/03 15:38:47 by mlabrirh         ###   ########.fr       */
+/*   Created: 2024/11/21 11:24:12 by mlabrirh          #+#    #+#             */
+/*   Updated: 2024/11/23 20:20:20 by mlabrirh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "ft_printf.h"
 
-int	is_sorted(t_lst **stack)
+int	ft_putchar(char c)
 {
-	t_lst	*tmp;
-
-	tmp = *stack;
-	while (tmp->next)
-	{
-		if (tmp->index > tmp->next->index)
-			return (-1);
-		tmp = tmp->next;
-	}
-	return (1);
+	return (write(1, &c, 1));
 }

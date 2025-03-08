@@ -11,8 +11,6 @@
 /* ************************************************************************** */
 
 #include "push_swap.h"
-#include "libft/libft.h"
-#include <stdio.h>
 
 void	ft_free(char **str)
 {
@@ -27,53 +25,47 @@ void	ft_free(char **str)
 	free(str);
 }
 
-void	push_swap(char **av, int size)
+static int	check_dup(t_lst *stack)
 {
-	check_args(av);
-}
+	int		tmp;
+	t_lst	*dup;
 
-int	ft_size(t_stack *lst)
-{
-	int	i;
-
-	i = 0;
-	while (lst != NULL && lst->next)
+	while (stack && stack->next)
 	{
-		lst = lst->next;
-		i++;
+		tmp = stack->content;
+		dup = stack;
+		while (dup->next)
+		{
+			dup = dup->next;
+			if (dup->content == tmp)
+				return (-1);
+		}
+		stack = stack->next;
 	}
-	return (i);
+	return (1);
 }
+
 
 int main(int ac, char **av)
 {
-	char	**split;
-	t_stack *a;
-	t_stack	*b;
-	int i = 0;
+	t_lst	*a_stack;
+	t_lst	*b_stack;
+
 	if (ac == 1 || (ac == 2 && !av[1][0]))
-		return 1;
-	if (ac == 2)
+		return (1);
+	a_stack = NULL;
+	b_stack = NULL;
+
+	if (initstack(ac, av, &a_stack) == 0)
+		ft_error();
+	else if (check_dup(a_stack) == - 1)
+			ft_error();
+	else
 	{
-		split = ft_split(av[1], 32);
-		creat_stack(&a, split);
-		if (ft_checksorted(a) == 0)
+		if (is_sorted(&a_stack) != 1)
 		{
-			if (ft_size(a) == 2)
-				sa(&a);
+			if (lst_size(a_stack) == 2)
+				do_sa(&a_stack);	
 		}
 	}
-
-	else if (ac > 2)
-	{
-		creat_stack(&a, av + 1);
-		if (!ft_checksorted(a))
-		{
-			if (ft_size(a) == 2)
-				sa(&a);
-			else if (ft_size(a) == 3)
-				sa(&a);
-		}
-	}
-
 }

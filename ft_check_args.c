@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "push_swap.h"
+#include <stdbool.h>
 
 int	space(int c)
 {
@@ -91,10 +92,26 @@ bool	ft_syntax_check(char *argv)
 	return (false);
 }
 
+bool	check_all_av(char **av)
+{
+	int	i;
+
+	i = 1;
+	while(av[i] != NULL)
+	{
+		if (ft_syntax_check(av[i]))
+			return true;
+		i++;
+	}
+	return false;
+}
+
 int check_args(char **av)
 {
 	alpha_check(av);
 	if (!check_error(av))
+		return false;
+	else if (!check_all_av(av))
 		return false;
 	return true;
 }

@@ -33,42 +33,30 @@ static long	ft_atol(const char *s)
 	return (result * sign);
 }
 
-void add_node(t_stack **stack, int nbr)
+
+int	initstack(int ac, char **av, t_lst **a_stack)
 {
-    t_stack *new_node;
-    t_stack *temp;
+	int			i;
+	int			j;
+	char		**split;
 
-    new_node = malloc(sizeof(t_stack));
-    if (!new_node)
-        ft_error();
-    new_node->nbr = nbr;
-    new_node->next = NULL;
-    if (*stack == NULL)
-        *stack = new_node;
-    else
-    {
-        temp = *stack;
-        while (temp->next)
-            temp = temp->next;
-        temp->next = new_node;
-    }
-}
-
-void	creat_stack(t_stack **a, char **av)
-{
-	int	i;
-	long n;
-
-	i = 0;
-	while(av[i])
+	i = 1;
+	while (i < ac)
 	{
-		if(ft_syntax_check(av[i]))
-			ft_error();
-		n = ft_atol(av[i]);
-		if (n > INT_MAX || n < INT_MIN)
-			ft_error();
-		check_args(&av[i]);
-		add_node(a, (int)n);
+		j = 0;
+		split = ft_split(av[i], ' ');
+		if (!split[j])
+			return (0);
+		while (split[j])
+		{
+			if (ft_atol(split[j]) > INT_MAX
+				|| ft_atol(split[j]) < INT_MIN)
+				return (0);
+			lst_addback(a_stack, lst_new(ft_atoi(split[j])));
+			j++;
+		}
+		ft_free(split);
 		i++;
 	}
+	return (1);
 }

@@ -1,27 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_stack_sort.c                                    :+:      :+:    :+:   */
+/*   ft_putuhexa.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlabrirh <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mlabrirh <mlabrirh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/03 15:38:04 by mlabrirh          #+#    #+#             */
-/*   Updated: 2025/03/03 15:38:47 by mlabrirh         ###   ########.fr       */
+/*   Created: 2024/11/22 09:17:35 by mlabrirh          #+#    #+#             */
+/*   Updated: 2024/11/23 20:30:38 by mlabrirh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "ft_printf.h"
 
-int	is_sorted(t_lst **stack)
+int	ft_putuhexa(unsigned int n)
 {
-	t_lst	*tmp;
+	int		count;
+	char	*hexa;
 
-	tmp = *stack;
-	while (tmp->next)
+	hexa = "0123456789ABCDEF";
+	count = 0;
+	if (n >= 16)
 	{
-		if (tmp->index > tmp->next->index)
-			return (-1);
-		tmp = tmp->next;
+		count += ft_putuhexa(n / 16);
 	}
-	return (1);
+	count += ft_putchar(hexa[n % 16]);
+	return (count);
 }

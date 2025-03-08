@@ -1,27 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_stack_sort.c                                    :+:      :+:    :+:   */
+/*   push.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mlabrirh <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/03 15:38:04 by mlabrirh          #+#    #+#             */
-/*   Updated: 2025/03/03 15:38:47 by mlabrirh         ###   ########.fr       */
+/*   Created: 2025/03/08 14:33:42 by mlabrirh          #+#    #+#             */
+/*   Updated: 2025/03/08 14:35:51 by mlabrirh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-int	is_sorted(t_lst **stack)
+static void	push(t_lst **a_stack, t_lst **b_stack)
 {
 	t_lst	*tmp;
 
-	tmp = *stack;
-	while (tmp->next)
-	{
-		if (tmp->index > tmp->next->index)
-			return (-1);
-		tmp = tmp->next;
-	}
-	return (1);
+	if (!b_stack)
+		return ;
+	tmp = (*b_stack)->next;
+	lst_addfront(a_stack, *b_stack);
+	*b_stack = tmp;
+	if (*b_stack)
+		(*b_stack)->prev = NULL;
+}
+
+void	do_pa(t_lst **a_stack, t_lst **b_stack)
+{
+	push(a_stack, b_stack);
+	printf("pa\n");
+}
+
+void	do_pb(t_lst **a_stack, t_lst **b_stack)
+{
+	push(b_stack, a_stack);
+	printf("pb\n");
 }

@@ -2,6 +2,7 @@ CC =	cc
 FLAGS =	
 NAME = push_swap
 SRCS =	$(shell ls ./libft/*.c) \
+		$(shell ls ./my_printf/*.c) \
 		$(shell ls ./*.c)
 
 OFILES =	$(SRCS:.c=.o)
