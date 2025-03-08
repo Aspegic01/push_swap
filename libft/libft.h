@@ -45,7 +45,7 @@ void	*ft_calloc(size_t count, size_t size);
 void	ft_bzero(void *s, size_t n);
 void	ft_striteri(char *s, void (*f)(unsigned int, char*));
 void	ft_putchar_fd(char c, int fd);
-void	ft_putstr_fd(char *s, int fd);
+int		ft_putstr_fd(char *s, int fd);
 void	ft_putendl_fd(char *s, int fd);
 void	ft_putnbr_fd(int n, int fd);
 

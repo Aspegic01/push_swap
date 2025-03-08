@@ -24,6 +24,7 @@ typedef struct s_lst
 {
 	int				content;
 	int				index;
+	int 			move;
 	struct s_lst	*next;
 	struct s_lst	*prev;
 }				t_lst;
@@ -38,6 +39,7 @@ bool	ft_syntax_check(char *argv);
 static void	ft_free(char **str);
 static int	initstack(int ac, char **av, t_lst **a_stack);
 int	is_sorted(t_lst **stack);
+void	radix_sort(t_lst **stack_a, t_lst **stack_b);
 int	ft_checksorted(t_lst *stack_a);
 void	lst_addfront(t_lst **stack, t_lst *news);
 void	lst_addback(t_lst **stack, t_lst *news);
@@ -55,5 +57,7 @@ void	do_rrr(t_lst **a_stack, t_lst **b_stack);
 void	do_ra(t_lst **stack);
 void	do_rb(t_lst **stack);
 void	do_rr(t_lst **a_stack, t_lst **b_stack);
-
+//push
+void	do_pa(t_lst **a_stack, t_lst **b_stack);
+void	do_pb(t_lst **a_stack, t_lst **b_stack);
 #endif

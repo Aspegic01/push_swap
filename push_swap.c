@@ -11,6 +11,47 @@
 /* ************************************************************************** */
 
 #include "push_swap.h"
+#include "libft/libft.h"
+#include <stdio.h>
+#include <unistd.h>
+
+static t_lst	*get_min(t_lst **stack)
+{
+	t_lst	*lst;
+	t_lst	*lst_min;
+	int		min;
+
+	if (!(*stack))
+		return (NULL);
+	min = 0;
+	lst_min = NULL;
+	lst = *stack;
+	while (lst)
+	{
+		if ((lst->index == -1)
+			&& (!min || lst->content < lst_min->content))
+		{
+			lst_min = lst;
+			min = 1;
+		}
+		lst = lst->next;
+	}
+	return (lst_min);
+}
+
+void	ft_index(t_lst **stack)
+{
+	t_lst	*lst;
+	int		index;
+
+	index = 0;
+	lst = get_min(stack);
+	while (lst)
+	{
+		lst->index = index++;
+		lst = get_min(stack);
+	}
+}
 
 static void	ft_free(char **str)
 {
@@ -81,6 +122,15 @@ static int	initstack(int ac, char **av, t_lst **a_stack)
 	return (1);
 }
 
+void	print_stack(t_lst *stack)
+{
+	while (stack)
+	{
+		printf("|    [%d]    |\n", stack->content);
+		stack = stack->next;
+	}
+}
+
 int main(int ac, char **av)
 {
 	t_lst	*a_stack;
@@ -91,21 +141,18 @@ int main(int ac, char **av)
 	a_stack = NULL;
 	b_stack = NULL;
 	if (initstack(ac, av, &a_stack) == 0)
-		ft_error();
+		return (ft_putstr_fd("Error\n", STDERR_FILENO));
 	else if (check_dup(a_stack) == - 1)
-			ft_error();
+		return (ft_putstr_fd("Error\n", STDERR_FILENO));
 	else
 	{
+		ft_index(&a_stack);
 		if (is_sorted(&a_stack) != 1)
 		{
-			if (lst_size(a_stack) == 2)
-				do_sa(&a_stack);	
-			if 
-
-			else
-
+			radix_sort(&a_stack, &b_stack);
 		}
 	}
+	//print_stack(a_stack);
 	stackclear(&a_stack);
 	stackclear(&b_stack);
 }
