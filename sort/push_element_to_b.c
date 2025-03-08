@@ -12,7 +12,7 @@
 
 #include "../include/push_swap.h"
 
-void push_in_range(t_lst **a, t_lst **b, t_range *range)
+void	push_in_range(t_lst **a, t_lst **b, t_range *range)
 {
 	if (!a || !b || !range)
 		return ;
@@ -36,7 +36,7 @@ void push_in_range(t_lst **a, t_lst **b, t_range *range)
 	}
 }
 
-void push_element_to_b(t_lst **a, t_lst **b, t_range *range)
+void	push_element_to_b(t_lst **a, t_lst **b, t_range *range)
 {
 	if (!a || !b || !range)
 		return ;

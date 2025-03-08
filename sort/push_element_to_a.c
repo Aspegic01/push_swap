@@ -12,9 +12,9 @@
 
 #include "../include/push_swap.h"
 
-int find_max_value(t_lst *stack)
+int	find_max_value(t_lst *stack)
 {
-	int max_value;
+	int	max_value;
 
 	max_value = stack->content;
 	while (stack)
@@ -26,9 +26,9 @@ int find_max_value(t_lst *stack)
 	return (max_value);
 }
 
-int get_position(t_lst *stack, int max_value)
+int	get_position(t_lst *stack, int max_value)
 {
-	int position;
+	int	position;
 
 	position = 0;
 	while (stack)
@@ -41,7 +41,7 @@ int get_position(t_lst *stack, int max_value)
 	return (position);
 }
 
-void push_elements_to_a(t_lst **a, t_lst **b)
+void	push_elements_to_a(t_lst **a, t_lst **b)
 {
 	int	max_value;
 	int	pos;

@@ -44,4 +44,3 @@ void	do_rrr(t_lst **a_stack, t_lst **b_stack)
 	reverse(b_stack);
 	write(1, "rrr\n", 4);
 }
-

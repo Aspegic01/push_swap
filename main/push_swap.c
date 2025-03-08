@@ -17,7 +17,7 @@ static void	ft_free(char **str)
 	int	i;
 
 	i = 0;
-	while(str[i])
+	while (str[i])
 	{
 		free(str[i]);
 		i++;
@@ -90,10 +90,10 @@ void	print_stack(t_lst *stack)
 	}
 }
 
-int main(int ac, char **av)
+int	main(int ac, char **av)
 {
-	t_lst *a_stack;
-	t_lst *b_stack;
+	t_lst	*a_stack;
+	t_lst	*b_stack;
 
 	if (ac == 1 || (ac == 2 && !av[1][0]))
 		return (1);
@@ -106,12 +106,11 @@ int main(int ac, char **av)
 	else
 	{
 		ft_index(&a_stack);
-		int size = lst_size(a_stack);
 		if (is_sorted(&a_stack) != 1)
 		{
 			if (lst_size(a_stack) == 2)
 				do_sa(&a_stack);
-			large_sort(&a_stack, &b_stack, size);
+			large_sort(&a_stack, &b_stack, lst_size(a_stack));
 		}
 	}
 	stackclear(&a_stack);

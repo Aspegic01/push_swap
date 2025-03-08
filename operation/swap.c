@@ -45,4 +45,3 @@ void	do_ss(t_lst **a_stack, t_lst **b_stack)
 	swap(b_stack);
 	ft_putstr_fd("ss\n", 1);
 }
-
