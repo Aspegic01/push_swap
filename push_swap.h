@@ -29,6 +29,15 @@ typedef struct s_lst
 	struct s_lst	*prev;
 }				t_lst;
 
+typedef struct s_range
+{
+	int	*sorted_array;
+	int	offset;
+	int	size;
+	int	start;
+	int	end;
+}				t_range;
+
 void	ft_error(void);
 void	creat_stack(t_lst **a, char **av);
 int check_args(char **av);

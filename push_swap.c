@@ -6,7 +6,7 @@
 /*   By: mlabrirh <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 17:20:59 by mlabrirh          #+#    #+#             */
-/*   Updated: 2025/03/02 17:40:20 by mlabrirh         ###   ########.fr       */
+/*   Updated: 2025/03/08 20:06:24 by Aspegic01        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "libft/libft.h"
 #include <stdio.h>
 #include <unistd.h>
+
 
 static t_lst	*get_min(t_lst **stack)
 {
@@ -131,10 +132,115 @@ void	print_stack(t_lst *stack)
 	}
 }
 
+int find_offset(int size)
+{
+	if (size <= 100)
+		return (size / 6);
+	else if (size <= 500)
+		return (size / 12);
+	else
+		return (size / (size / 2));
+}
+
+void sorted_array(int *array, int size)
+{
+	int i, j, temp;
+	for (i = 0; i < size - 1; i++)
+	{
+		for (j = 0; j < size - i - 1; j++)
+		{
+			if (array[j] > array[j + 1])
+			{
+				temp = array[j];
+				array[j] = array[j + 1];
+				array[j + 1] = temp;
+			}
+		}
+	}
+}
+
+int *stack_to_array(t_lst *stack, int size)
+{
+	int *array;
+	int i;
+
+	array = (int *)malloc(size * sizeof(int));
+	if (!array)
+		return (NULL);
+	i = 0;
+	while (stack)
+	{
+		array[i++] = stack->content;
+		stack = stack->next;
+	}
+	return (array);
+}
+
+void push_element_to_b(t_lst **a, t_lst **b, t_range *range)
+{
+	int i;
+
+	for (i = 0; i < range->size; i++)
+	{
+		if ((*a)->content >= range->sorted_array[range->start] &&
+			(*a)->content <= range->sorted_array[range->end])
+		{
+			do_pb(a, b);
+		}
+		else
+			do_ra(a);
+	}
+}
+
+void push_elements_to_a(t_lst **a, t_lst **b)
+{
+	while (*b)
+	{
+		do_pa(a, b);
+	}
+}
+
+void init_range(t_lst **a, t_range *range, int size)
+{
+	int *array;
+
+	array = stack_to_array(*a, size);
+	if (!array)
+		return;
+	sorted_array(array, size);
+	range->offset = find_offset(size);
+	range->sorted_array = array;
+	range->size = size;
+	range->start = 0;
+	range->end = range->offset;
+}
+
+void next_chunk(t_range *range)
+{
+	if (range->start < range->end - 1)
+		range->start += 1;
+	if (range->end < range->size - 1)
+		range->end += 1;
+}
+
+void large_sort(t_lst **a, t_lst **b, int size)
+{
+	t_range *range;
+
+	range = (t_range *)malloc(sizeof(t_range));
+	if (!range)
+		return;
+	init_range(a, range, size);
+	push_element_to_b(a, b, range);
+	push_elements_to_a(a, b);
+	free(range->sorted_array);
+	free(range);
+}
+
 int main(int ac, char **av)
 {
-	t_lst	*a_stack;
-	t_lst	*b_stack;
+	t_lst *a_stack;
+	t_lst *b_stack;
 
 	if (ac == 1 || (ac == 2 && !av[1][0]))
 		return (1);
@@ -142,17 +248,18 @@ int main(int ac, char **av)
 	b_stack = NULL;
 	if (initstack(ac, av, &a_stack) == 0)
 		return (ft_putstr_fd("Error\n", STDERR_FILENO));
-	else if (check_dup(a_stack) == - 1)
+	else if (check_dup(a_stack) == -1)
 		return (ft_putstr_fd("Error\n", STDERR_FILENO));
 	else
 	{
 		ft_index(&a_stack);
+		int size = lst_size(a_stack);
 		if (is_sorted(&a_stack) != 1)
 		{
-			radix_sort(&a_stack, &b_stack);
+			large_sort(&a_stack, &b_stack, size);
 		}
 	}
-	//print_stack(a_stack);
+	print_stack(a_stack);
 	stackclear(&a_stack);
 	stackclear(&b_stack);
 }
