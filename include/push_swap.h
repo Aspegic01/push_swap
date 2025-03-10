@@ -6,7 +6,7 @@
 /*   By: mlabrirh <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 15:32:21 by mlabrirh          #+#    #+#             */
-/*   Updated: 2025/03/08 23:10:30 by mlabrirh         ###   ########.fr       */
+/*   Updated: 2025/03/10 14:44:27 by mlabrirh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ typedef struct s_range
 }				t_range;
 
 void	ft_error(void);
+void	sort_three(t_lst **a);
 void	creat_stack(t_lst **a, char **av);
 int		check_args(char **av);
 bool	stack_sort(t_lst *stack);

@@ -29,18 +29,18 @@ void	reverse(t_lst **stack)
 void	do_rra(t_lst **stack)
 {
 	reverse(stack);
-	write(1, "rra\n", 4);
+	ft_putstr_fd("rra\n", 1);
 }
 
 void	do_rrb(t_lst **stack)
 {
 	reverse(stack);
-	write(1, "rrb\n", 4);
+	ft_putstr_fd("rrb\n", 1);
 }
 
 void	do_rrr(t_lst **a_stack, t_lst **b_stack)
 {
 	reverse(a_stack);
 	reverse(b_stack);
-	write(1, "rrr\n", 4);
+	ft_putstr_fd("rrr\n", 1);
 }

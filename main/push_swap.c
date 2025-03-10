@@ -81,15 +81,6 @@ static int	initstack(int ac, char **av, t_lst **a_stack)
 	return (1);
 }
 
-void	print_stack(t_lst *stack)
-{
-	while (stack)
-	{
-		printf("|    [%d]    |\n", stack->content);
-		stack = stack->next;
-	}
-}
-
 int	main(int ac, char **av)
 {
 	t_lst	*a_stack;
@@ -110,7 +101,10 @@ int	main(int ac, char **av)
 		{
 			if (lst_size(a_stack) == 2)
 				do_sa(&a_stack);
-			large_sort(&a_stack, &b_stack, lst_size(a_stack));
+			if (lst_size(a_stack) == 3)
+				sort_three(&a_stack);
+			else
+				large_sort(&a_stack, &b_stack, lst_size(a_stack));
 		}
 	}
 	stackclear(&a_stack);
