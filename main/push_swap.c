@@ -96,12 +96,11 @@ int	main(int ac, char **av)
 		return (ft_putstr_fd("Error\n", STDERR_FILENO));
 	else
 	{
-		ft_index(&a_stack);
 		if (is_sorted(&a_stack) != 1)
 		{
 			if (lst_size(a_stack) == 2)
 				do_sa(&a_stack);
-			if (lst_size(a_stack) == 3)
+			else if (lst_size(a_stack) == 3)
 				sort_three(&a_stack);
 			else
 				large_sort(&a_stack, &b_stack, lst_size(a_stack));

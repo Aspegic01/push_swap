@@ -22,7 +22,6 @@
 typedef struct s_lst
 {
 	int				content;
-	int				index;
 	struct s_lst	*next;
 	struct s_lst	*prev;
 }				t_lst;
@@ -36,22 +35,15 @@ typedef struct s_range
 	int	end;
 }				t_range;
 
-void	ft_error(void);
 void	sort_three(t_lst **a);
-void	creat_stack(t_lst **a, char **av);
-int		check_args(char **av);
 bool	stack_sort(t_lst *stack);
 int		lst_size(t_lst *stack);
-void	sa(t_lst **a);
 void	ft_index(t_lst **stack);
-bool	ft_syntax_check(char *argv);
 int		is_sorted(t_lst **stack);
-void	radix_sort(t_lst **stack_a, t_lst **stack_b);
 void	push_elements_to_a(t_lst **a, t_lst **b);
 void	push_element_to_b(t_lst **a, t_lst **b, t_range *range);
 void	next_chunk(t_range *range);
 void	large_sort(t_lst **a, t_lst **b, int size);
-int		ft_checksorted(t_lst *stack_a);
 int		*stack_to_array(t_lst *stack, int size);
 void	sorted_array(int *array, int size);
 void	lst_addfront(t_lst **stack, t_lst *news);

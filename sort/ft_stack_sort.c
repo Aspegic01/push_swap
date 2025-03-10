@@ -61,7 +61,7 @@ int	is_sorted(t_lst **stack)
 	tmp = *stack;
 	while (tmp->next)
 	{
-		if (tmp->index > tmp->next->index)
+		if (tmp->content > tmp->next->content)
 			return (-1);
 		tmp = tmp->next;
 	}

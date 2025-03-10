@@ -72,7 +72,6 @@ t_lst	*lst_new(int content)
 	if (!stack)
 		return (NULL);
 	stack->content = content;
-	stack->index = -1;
 	stack->next = NULL;
 	stack->prev = NULL;
 	return (stack);

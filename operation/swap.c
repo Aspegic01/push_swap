@@ -20,11 +20,8 @@ static void	swap(t_lst **stack)
 	if (!(*stack)->next)
 		return ;
 	content = (*stack)->next->content;
-	index = (*stack)->next->index;
 	(*stack)->next->content = (*stack)->content;
-	(*stack)->next->index = (*stack)->index;
 	(*stack)->content = content;
-	(*stack)->index = index;
 }
 
 void	do_sa(t_lst **stack)
