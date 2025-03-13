@@ -14,7 +14,9 @@
 
 int	find_offset(int size)
 {
-	if (size <= 100)
+	if (size == 4 || size == 5)
+		return (size / 2);
+	else if (size <= 100)
 		return (size / 6);
 	else if (size <= 500)
 		return (size / 12);

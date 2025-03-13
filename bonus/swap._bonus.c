@@ -1,44 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   push.c                                             :+:      :+:    :+:   */
+/*   swap.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mlabrirh <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/08 14:33:42 by mlabrirh          #+#    #+#             */
-/*   Updated: 2025/03/08 14:35:51 by mlabrirh         ###   ########.fr       */
+/*   Created: 2025/03/08 15:04:31 by mlabrirh          #+#    #+#             */
+/*   Updated: 2025/03/08 15:04:43 by mlabrirh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/push_swap.h"
 
-static	void	push(t_lst **dest, t_lst **src)
+static void	swap(t_lst **stack)
 {
-	t_lst	*tmp;
+	int	index;
+	int	content;
 
-	if (!src || !*src)
+	if (!(*stack)->next)
 		return ;
-	tmp = (*src)->next;
-	lst_addfront(dest, *src);
-	*src = tmp;
-	if (*src)
-		(*src)->prev = NULL;
+	content = (*stack)->next->content;
+	(*stack)->next->content = (*stack)->content;
+	(*stack)->content = content;
 }
 
-void	do_pa(t_lst **a_stack, t_lst **b_stack)
+void	do_sa(t_lst **stack)
 {
-	if (b_stack && *b_stack)
-	{
-		push(a_stack, b_stack);
-		ft_putstr_fd("pa\n", 1);
-	}
+	swap(stack);
 }
 
-void	do_pb(t_lst **a_stack, t_lst **b_stack)
+void	do_sb(t_lst **stack)
 {
-	if (a_stack && *a_stack)
-	{
-		push(b_stack, a_stack);
-		ft_putstr_fd("pb\n", 1);
-	}
+	swap(stack);
+}
+
+void	do_ss(t_lst **a_stack, t_lst **b_stack)
+{
+	swap(a_stack);
+	swap(b_stack);
 }

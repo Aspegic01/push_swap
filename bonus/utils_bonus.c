@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   push_swap.c                                        :+:      :+:    :+:   */
+/*   utils_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mlabrirh <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/02 17:20:59 by mlabrirh          #+#    #+#             */
-/*   Updated: 2025/03/08 23:11:04 by mlabrirh         ###   ########.fr       */
+/*   Created: 2025/03/12 17:06:46 by mlabrirh          #+#    #+#             */
+/*   Updated: 2025/03/12 17:06:59 by mlabrirh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/push_swap.h"
+#include "push_swap_bonus.h"
 
-static void	ft_free(char **str)
+void	ft_free(char **str)
 {
 	int	i;
 
@@ -25,7 +25,7 @@ static void	ft_free(char **str)
 	free(str);
 }
 
-static int	check_dup(t_lst *stack)
+int	check_dup(t_lst *stack)
 {
 	int		tmp;
 	t_lst	*dup;
@@ -45,7 +45,7 @@ static int	check_dup(t_lst *stack)
 	return (1);
 }
 
-static void	stackclear(t_lst **stack)
+void	stackclear(t_lst **stack)
 {
 	if (!stack || !(*stack))
 		return ;
@@ -54,7 +54,7 @@ static void	stackclear(t_lst **stack)
 	*stack = NULL;
 }
 
-static int	initstack(int ac, char **av, t_lst **a_stack)
+int	initstack(int ac, char **av, t_lst **a_stack)
 {
 	int			i;
 	int			j;
@@ -81,31 +81,16 @@ static int	initstack(int ac, char **av, t_lst **a_stack)
 	return (1);
 }
 
-int	main(int ac, char **av)
+int	is_sorted(t_lst **stack)
 {
-	t_lst	*a_stack;
-	t_lst	*b_stack;
+	t_lst	*tmp;
 
-	if (ac == 1 || (ac == 2 && !av[1][0]))
-		return (1);
-	a_stack = NULL;
-	b_stack = NULL;
-	if (initstack(ac, av, &a_stack) == 0)
-		return (stackclear(&a_stack), ft_putstr_fd("Error\n", STDERR_FILENO));
-	else if (check_dup(a_stack) == -1)
-		return (stackclear(&a_stack), ft_putstr_fd("Error\n", STDERR_FILENO));
-	else
+	tmp = *stack;
+	while (tmp->next)
 	{
-		if (is_sorted(&a_stack) != 1)
-		{
-			if (lst_size(a_stack) == 2)
-				do_sa(&a_stack);
-			else if (lst_size(a_stack) == 3)
-				sort_three(&a_stack);
-			else
-				large_sort(&a_stack, &b_stack, lst_size(a_stack));
-		}
+		if (tmp->content > tmp->next->content)
+			return (-1);
+		tmp = tmp->next;
 	}
-	stackclear(&a_stack);
-	stackclear(&b_stack);
+	return (1);
 }

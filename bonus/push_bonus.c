@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/push_swap.h"
+#include "push_swap_bonus.h"
 
 static	void	push(t_lst **dest, t_lst **src)
 {
@@ -28,17 +28,11 @@ static	void	push(t_lst **dest, t_lst **src)
 void	do_pa(t_lst **a_stack, t_lst **b_stack)
 {
 	if (b_stack && *b_stack)
-	{
 		push(a_stack, b_stack);
-		ft_putstr_fd("pa\n", 1);
-	}
 }
 
 void	do_pb(t_lst **a_stack, t_lst **b_stack)
 {
 	if (a_stack && *a_stack)
-	{
 		push(b_stack, a_stack);
-		ft_putstr_fd("pb\n", 1);
-	}
 }

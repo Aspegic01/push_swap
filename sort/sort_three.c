@@ -25,15 +25,15 @@ void	sort_three(t_lst **a)
 		do_sa(a);
 	else if (first > second && second > third)
 	{
-	do_sa(a);
-	do_rra(a);
+		do_sa(a);
+		do_rra(a);
 	}
 	else if (first > second && second < third && first > third)
 		do_ra(a);
 	else if (first < second && second > third && first < third)
 	{
-	do_sa(a);
-	do_ra(a);
+		do_sa(a);
+		do_ra(a);
 	}
 	else if (first < second && second > third && first > third)
 		do_rra(a);
