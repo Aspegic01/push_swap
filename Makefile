@@ -9,7 +9,7 @@ SRCS =	$(shell ls ./libft/*.c) \
 		$(shell ls ./operation/*.c)
 
 BONUS = $(shell ls ./libft/*.c) \
-		$(shell ls ./Get_next_line/*.c) \
+		$(shell ls ./get_next_line/*.c) \
 		$(shell ls ./bonus/*.c)
 
 OFILES = $(SRCS:.c=.o)
